@@ -17,7 +17,7 @@ class ConfigFactory
      * @param array $config
      * @return Config
      */
-    public static function createConfig(array $config)
+    public static function createConfig(array $config): Config
     {
         foreach ($config as $key => $databaseConfig) {
             if (isset($databaseConfig['dsn'])) {

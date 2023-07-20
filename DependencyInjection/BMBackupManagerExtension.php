@@ -22,15 +22,15 @@ class BMBackupManagerExtension extends Extension
     /**
      * {@inheritDoc}
      */
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container): void
     {
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.yml');
-        $config['storage'] = isset($config['storage']) ? $config['storage'] : [];
-        $config['database'] = isset($config['database']) ? $config['database'] : [];
+        $config['storage'] = $config['storage'] ?? [];
+        $config['database'] = $config['database'] ?? [];
         $this->validateStorage($config['storage']);
 
         $managerIdMap = [
@@ -66,17 +66,17 @@ class BMBackupManagerExtension extends Extension
      * We want to make sure the correct dependencies are installed for a storage.
      * @param array $config
      */
-    private function validateStorage(array $config)
+    private function validateStorage(array $config): void
     {
         $requirements = [
-            'Local' => ['package'=>'league/flysystem:^1.0', 'test'=>Local::class],
-            'AwsS3' => ['package'=>'league/flysystem-aws-s3-v3:^1.0', 'test'=>AwsS3Adapter::class],
-            'B2' => ['package'=>'mhetreramesh/flysystem-backblaze:^1.0', 'test'=>BackblazeAdapter::class],
-            'Rackspace' => ['package'=>'league/flysystem-rackspace:^1.0', 'test'=>RackspaceAdapter::class],
-            'Dropbox' => ['package'=>'league/flysystem-dropbox:^1.0', 'test'=>DropboxAdapter::class],
-            'DropboxV2' => ['package'=>'srmklive/flysystem-dropbox-v2:^1.0', 'test'=>Dropbox2Adapter::class],
-            'Ftp' => ['package'=>'league/flysystem:^1.0', 'test'=>Ftp::class],
-            'Sftp' => ['package'=>'league/flysystem-sftp:^1.0', 'test'=>SftpAdapter::class],
+            'Local' => ['package' => 'league/flysystem:^1.0', 'test' => Local::class],
+            'AwsS3' => ['package' => 'league/flysystem-aws-s3-v3:^1.0', 'test' => AwsS3Adapter::class],
+            'B2' => ['package' => 'mhetreramesh/flysystem-backblaze:^1.0', 'test' => BackblazeAdapter::class],
+            'Rackspace' => ['package' => 'league/flysystem-rackspace:^1.0', 'test' => RackspaceAdapter::class],
+            'Dropbox' => ['package' => 'league/flysystem-dropbox:^1.0', 'test' => DropboxAdapter::class],
+            'DropboxV2' => ['package' => 'srmklive/flysystem-dropbox-v2:^1.0', 'test' => Dropbox2Adapter::class],
+            'Ftp' => ['package' => 'league/flysystem:^1.0', 'test' => Ftp::class],
+            'Sftp' => ['package' => 'league/flysystem-sftp:^1.0', 'test' => SftpAdapter::class],
             'Gcs' => ['package' => 'superbalist/flysystem-google-storage:^6.0', 'test' => GoogleStorageAdapter::class],
         ];
 

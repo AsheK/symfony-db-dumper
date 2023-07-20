@@ -2,10 +2,6 @@
 
 namespace BM\BackupManagerBundle\Command;
 
-
-use BackupManager\Config\Config;
-use BackupManager\Filesystems\Destination;
-use BackupManager\Filesystems\FilesystemProvider;
 use BackupManager\Manager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -22,15 +18,8 @@ class RestoreCommand extends Command
 {
     protected static $defaultName = 'backup-manager:restore';
 
-    /**
-     * @var Manager
-     */
-    private $manager;
+    private Manager $manager;
 
-    /**
-     *
-     * @param Manager $manager
-     */
     public function __construct(Manager $manager)
     {
         $this->manager = $manager;
@@ -38,7 +27,7 @@ class RestoreCommand extends Command
     }
 
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName(self::$defaultName)

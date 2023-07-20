@@ -34,7 +34,7 @@ class Configuration implements ConfigurationInterface
 
                                 switch ($config['type']) {
                                     case 'Local':
-                                        $this->validateAuthenticationType(['root'], $config, 'Local');
+                                        $this->validateAuthenticationType(['root', 'maxFiles'], $config, 'Local');
                                         break;
                                     case 'AwsS3':
                                         $this->validateAuthenticationType(['key', 'secret', 'region', 'version', 'bucket', 'root', 'endpoint'], $config, 'AwsS3');
@@ -138,7 +138,7 @@ class Configuration implements ConfigurationInterface
      *
      * @throws InvalidConfigurationException If $actual does not have exactly the keys specified in $expected (plus 'type')
      */
-    private function validateAuthenticationType(array $expected, array $actual, $typeName)
+    private function validateAuthenticationType(array $expected, array $actual, string $typeName): void
     {
         unset($actual['type']);
         $actual = array_keys($actual);
